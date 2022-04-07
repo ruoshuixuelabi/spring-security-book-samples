@@ -1,11 +1,9 @@
 package org.javaboy.exception_translation_filter;
 
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.ServletException;
-import javax.sql.rowset.serial.SerialException;
 
 /**
  * @author 江南一点雨

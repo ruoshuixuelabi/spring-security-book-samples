@@ -6,7 +6,6 @@ import org.springframework.security.web.util.ThrowableAnalyzer;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
-import java.util.Arrays;
 
 @SpringBootTest
 class ExceptionTranslationFilterApplicationTests {
@@ -18,9 +17,8 @@ class ExceptionTranslationFilterApplicationTests {
         IOException ccc = new IOException(bbb);
         ThrowableAnalyzer throwableAnalyzer = new ThrowableAnalyzer();
         Throwable[] causeChain = throwableAnalyzer.determineCauseChain(ccc);
-        for (int i = 0; i < causeChain.length; i++) {
-            System.out.println("causeChain[i].getClass() = " + causeChain[i].getClass());
+        for (Throwable throwable : causeChain) {
+            System.out.println("causeChain[i].getClass() = " + throwable.getClass());
         }
     }
-
 }
