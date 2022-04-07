@@ -35,8 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
-        ProviderManager manager = new ProviderManager(kaptchaAuthenticationProvider());
-        return manager;
+        return new ProviderManager(kaptchaAuthenticationProvider());
     }
 
     @Override

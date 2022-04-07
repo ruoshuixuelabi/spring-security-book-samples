@@ -26,19 +26,17 @@ import java.util.Map;
 public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        if (!request.getMethod().equals("POST")) {
+        if (!"POST".equals(request.getMethod())) {
             throw new AuthenticationServiceException(
                     "Authentication method not supported: " + request.getMethod());
         }
         if (request.getContentType().equalsIgnoreCase(MediaType.APPLICATION_JSON_VALUE) || request.getContentType().equalsIgnoreCase(MediaType.APPLICATION_JSON_UTF8_VALUE)) {
-
-            Map<String, String> userInfo = new HashMap<>();
+            Map<String, String> userInfo;
             try {
                 userInfo = new ObjectMapper().readValue(request.getInputStream(), Map.class);
                 String username = userInfo.get(getUsernameParameter());
                 String password = userInfo.get(getPasswordParameter());
-                UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(
-                        username, password);
+                UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, password);
                 setDetails(request, authRequest);
                 return this.getAuthenticationManager().authenticate(authRequest);
             } catch (IOException e) {

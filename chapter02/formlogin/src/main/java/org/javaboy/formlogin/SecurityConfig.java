@@ -43,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/mylogin.html")
                 .loginProcessingUrl("/doLogin")
+                //defaultSuccessUrl方法可以实现登录成功后的跳转
                 .defaultSuccessUrl("/index.html")
                 .failureHandler(new MyAuthenticationFailureHandler())
                 .usernameParameter("uname")
@@ -55,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         new AntPathRequestMatcher("/logout2", "POST")))
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
-                .defaultLogoutSuccessHandlerFor((req,resp,auth)->{
+                .defaultLogoutSuccessHandlerFor((req, resp, auth) -> {
                     resp.setContentType("application/json;charset=utf-8");
                     Map<String, Object> result = new HashMap<>();
                     result.put("status", 200);
@@ -63,8 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     ObjectMapper om = new ObjectMapper();
                     String s = om.writeValueAsString(result);
                     resp.getWriter().write(s);
-                },new AntPathRequestMatcher("/logout1","GET"))
-                .defaultLogoutSuccessHandlerFor((req,resp,auth)->{
+                }, new AntPathRequestMatcher("/logout1", "GET"))
+                .defaultLogoutSuccessHandlerFor((req, resp, auth) -> {
                     resp.setContentType("application/json;charset=utf-8");
                     Map<String, Object> result = new HashMap<>();
                     result.put("status", 200);
@@ -72,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     ObjectMapper om = new ObjectMapper();
                     String s = om.writeValueAsString(result);
                     resp.getWriter().write(s);
-                },new AntPathRequestMatcher("/logout2","POST"))
+                }, new AntPathRequestMatcher("/logout2", "POST"))
                 .and()
                 .csrf().disable();
     }

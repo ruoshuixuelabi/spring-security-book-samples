@@ -28,6 +28,7 @@ public class SecurityConfig {
         users.createUser(User.withUsername("javaboy").password("{noop}123").roles("admin").build());
         return users;
     }
+
     @Configuration
     @Order(1)
     static class SecurityConfig01 extends WebSecurityConfigurerAdapter {

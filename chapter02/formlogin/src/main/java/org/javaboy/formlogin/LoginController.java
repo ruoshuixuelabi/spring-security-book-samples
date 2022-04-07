@@ -22,19 +22,23 @@ public class LoginController {
     public String index() {
         return "login success";
     }
+
     @RequestMapping("/hello")
     public String hello() {
         return "hello spring security";
     }
+
     @RequestMapping("/authentication")
     public void authentication(Authentication authentication) {
         System.out.println("authentication = " + authentication);
     }
+
     @RequestMapping("/principal")
     public void principal(Principal principal, HttpServletRequest req) {
         System.out.println("req.getClass() = " + req.getClass());
         System.out.println("principal = " + principal);
     }
+
     @RequestMapping("/info")
     public void info(HttpServletRequest req) {
         String remoteUser = req.getRemoteUser();

@@ -40,12 +40,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         DaoAuthenticationProvider dao1 = new DaoAuthenticationProvider();
         dao1.setUserDetailsService(us1());
-
         DaoAuthenticationProvider dao2 = new DaoAuthenticationProvider();
         dao2.setUserDetailsService(us2());
-
-        ProviderManager manager = new ProviderManager(dao1, dao2);
-        return manager;
+        return new ProviderManager(dao1, dao2);
     }
 
     @Override

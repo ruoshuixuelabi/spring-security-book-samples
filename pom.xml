@@ -8,6 +8,65 @@
     <packaging>pom</packaging>
     <modules>
         <module>chapter02/firstdemo</module>
+        <module>chapter02/formlogin</module>
+        <module>chapter02/getloginuser</module>
+        <module>chapter02/jdbcuserdetailsmanager</module>
+        <module>chapter02/jpa</module>
+        <module>chapter02/mybatis</module>
+        <module>chapter02/user-in-memory</module>
+        <module>chapter03/kaptcha</module>
+        <module>chapter03/multiuser</module>
+        <module>chapter03/multiuser-mybatis</module>
+        <module>chapter04/startanalysis</module>
+        <module>chapter04/filter_kaptcha</module>
+        <module>chapter04/ignoredrequests</module>
+        <module>chapter04/json_login</module>
+        <module>chapter04/multi_filter_chain</module>
+        <module>chapter04/multi_users01</module>
+        <module>chapter04/multi_users02</module>
+        <module>chapter04/multi_users03</module>
+        <module>chapter04/objectpostprocessor</module>
+        <module>chapter05/passwordencoder</module>
+        <module>chapter05/passwordencoder02</module>
+        <module>chapter06/rememberme</module>
+        <module>chapter06/rememberme_persistent</module>
+        <module>chapter07/sessionmanager</module>
+        <module>chapter07/sessionshare</module>
+        <module>chapter08/httpfirewall</module>
+        <module>chapter09/csrf-1</module>
+        <module>chapter09/csrf-2</module>
+        <module>chapter09/http</module>
+        <module>chapter09/http_response_headers</module>
+        <module>chapter09/receive_report</module>
+        <module>chapter09/samesite</module>
+        <module>chapter09/synchronizer_token_pattern</module>
+        <module>chapter09/token_in_cookie</module>
+        <module>chapter10/http_basic</module>
+        <module>chapter10/http_digest</module>
+        <module>chapter11/cors01_addcorsmappings</module>
+        <module>chapter11/cors01_corsfilter</module>
+        <module>chapter11/cors01_crossorigin</module>
+        <module>chapter11/cors02</module>
+        <module>chapter11/cors_security</module>
+        <module>chapter11/cors_security_corsfilter</module>
+        <module>chapter11/cors_security_crossorigin</module>
+        <module>chapter12/exception_translation_filter</module>
+        <module>chapter13/base_on_url_dy</module>
+        <module>chapter13/based_on_method</module>
+        <module>chapter13/based_on_url</module>
+        <module>chapter13/custom_expression</module>
+        <module>chapter14/acl</module>
+        <module>chapter15/oauth2/auth_server_jdbc</module>
+        <module>chapter15/oauth2</module>
+        <module>chapter15/oauth2/auth_server</module>
+        <module>chapter15/oauth2/auth_server_jwt</module>
+        <module>chapter15/oauth2/auth_server_redis</module>
+        <module>chapter15/oauth2_login_demo</module>
+        <module>chapter15/oauth2_login_demo2</module>
+        <module>chapter15/oauth2_login_demo3</module>
+        <module>chapter15/oauth2/res_server</module>
+        <module>chapter15/oauth2/res_server_jwt</module>
+        <module>chapter15/oauth2/client02</module>
     </modules>
     <properties>
         <java.version>1.8</java.version>
@@ -17,11 +76,16 @@
         <druid.version>1.1.21</druid.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
-        <spring-boot.version>2.6.0</spring-boot.version>
+        <spring-boot.version>2.6.6</spring-boot.version>
         <mybatis-plus-boot.version>3.3.2</mybatis-plus-boot.version>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>9.21</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
