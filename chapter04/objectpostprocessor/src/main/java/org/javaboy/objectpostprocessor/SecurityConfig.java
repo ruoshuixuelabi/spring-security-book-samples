@@ -1,10 +1,12 @@
 package org.javaboy.objectpostprocessor;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -17,11 +19,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * @Gitee https://gitee.com/lenve
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+//public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -30,13 +32,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     public <O extends UsernamePasswordAuthenticationFilter> O postProcess(O object) {
                         object.setUsernameParameter("name");
                         object.setPasswordParameter("passwd");
-                        object.setAuthenticationSuccessHandler((req,resp,auth)->{
+                        object.setAuthenticationSuccessHandler((req, resp, auth) -> {
                             resp.getWriter().write("login success");
                         });
                         return object;
                     }
                 })
                 .and()
-                .csrf().disable();
+                .csrf().disable().build();
     }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .withObjectPostProcessor(new ObjectPostProcessor<UsernamePasswordAuthenticationFilter>() {
+//                    @Override
+//                    public <O extends UsernamePasswordAuthenticationFilter> O postProcess(O object) {
+//                        object.setUsernameParameter("name");
+//                        object.setPasswordParameter("passwd");
+//                        object.setAuthenticationSuccessHandler((req,resp,auth)->{
+//                            resp.getWriter().write("login success");
+//                        });
+//                        return object;
+//                    }
+//                })
+//                .and()
+//                .csrf().disable();
+//    }
 }

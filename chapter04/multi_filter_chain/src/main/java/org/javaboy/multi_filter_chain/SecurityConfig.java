@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author 江南一点雨
@@ -31,12 +32,14 @@ public class SecurityConfig {
 
     @Configuration
     @Order(1)
-    static class SecurityConfig01 extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
+//    static class SecurityConfig01 extends WebSecurityConfigurerAdapter {
+    static class SecurityConfig01 {
+        @Bean
+        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
             users.createUser(User.withUsername("bar").password("{noop}123").roles("admin").build());
-            http.antMatcher("/bar/**")
+            users.createUser(User.withUsername("javaboy").password("{noop}123").roles("admin").build());
+            return http.antMatcher("/bar/**")
                     .authorizeRequests()
                     .anyRequest().authenticated()
                     .and()
@@ -50,25 +53,47 @@ public class SecurityConfig {
                     .permitAll()
                     .and()
                     .csrf().disable()
-                    .userDetailsService(users);
+                    .userDetailsService(users).build();
         }
+//        @Override
+//        protected void configure(HttpSecurity http) throws Exception {
+//            InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
+//            users.createUser(User.withUsername("bar").password("{noop}123").roles("admin").build());
+//            http.antMatcher("/bar/**")
+//                    .authorizeRequests()
+//                    .anyRequest().authenticated()
+//                    .and()
+//                    .formLogin()
+//                    .loginProcessingUrl("/bar/login")
+//                    .successHandler((req, resp, auth) -> {
+//                        resp.setContentType("application/json;charset=utf-8");
+//                        String s = new ObjectMapper().writeValueAsString(auth);
+//                        resp.getWriter().write(s);
+//                    })
+//                    .permitAll()
+//                    .and()
+//                    .csrf().disable()
+//                    .userDetailsService(users);
+//        }
     }
 
     @Configuration
     @Order(2)
-    static class SecurityConfig02 extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.inMemoryAuthentication().withUser("javagirl")
-                    .password("{noop}123")
-                    .roles("admin");
+//    static class SecurityConfig02 extends WebSecurityConfigurerAdapter {
+    static class SecurityConfig02 {
+        @Bean
+        UserDetailsService us() {
+            InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
+            users.createUser(User.withUsername("javagirl")
+                    .password("{noop}123").roles("admin").build());
+            return users;
         }
 
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
+        @Bean
+        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
             users.createUser(User.withUsername("foo").password("{noop}123").roles("admin").build());
-            http.antMatcher("/foo/**")
+            return http.antMatcher("/foo/**")
                     .authorizeRequests()
                     .anyRequest().authenticated()
                     .and()
@@ -82,8 +107,34 @@ public class SecurityConfig {
                     .permitAll()
                     .and()
                     .csrf().disable()
-                    .userDetailsService(users);
+                    .userDetailsService(users).build();
         }
+        //        @Override
+//        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//            auth.inMemoryAuthentication().withUser("javagirl")
+//                    .password("{noop}123")
+//                    .roles("admin");
+//        }
+//        @Override
+//        protected void configure(HttpSecurity http) throws Exception {
+//            InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
+//            users.createUser(User.withUsername("foo").password("{noop}123").roles("admin").build());
+//            http.antMatcher("/foo/**")
+//                    .authorizeRequests()
+//                    .anyRequest().authenticated()
+//                    .and()
+//                    .formLogin()
+//                    .loginProcessingUrl("/foo/login")
+//                    .successHandler((req, resp, auth) -> {
+//                        resp.setContentType("application/json;charset=utf-8");
+//                        String s = new ObjectMapper().writeValueAsString(auth);
+//                        resp.getWriter().write(s);
+//                    })
+//                    .permitAll()
+//                    .and()
+//                    .csrf().disable()
+//                    .userDetailsService(users);
+//        }
     }
 
 }

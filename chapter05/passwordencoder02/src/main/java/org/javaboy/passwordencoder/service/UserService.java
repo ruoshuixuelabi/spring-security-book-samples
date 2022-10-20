@@ -1,5 +1,6 @@
 package org.javaboy.passwordencoder.service;
 
+import com.oracle.xmlns.internal.webservices.jaxws_databinding.SoapBindingUse;
 import org.javaboy.passwordencoder.mapper.UserMapper;
 import org.javaboy.passwordencoder.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class UserService implements UserDetailsService, UserDetailsPasswordServi
     UserMapper userMapper;
     @Override
     public UserDetails updatePassword(UserDetails user, String newPassword) {
+        System.out.println("需要修改密码");
         Integer result = userMapper.updatePassword(user.getUsername(), newPassword);
         if (result == 1) {
             ((User) user).setPassword(newPassword);

@@ -11,6 +11,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>jdbcuserdetailsmanager</name>
     <description>jdbcuserdetailsmanager</description>
+    <properties>
+        <spring-boot.version>2.7.4</spring-boot.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

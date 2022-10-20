@@ -9,19 +9,27 @@
     <modules>
         <module>chapter02/firstdemo</module>
         <module>chapter02/formlogin</module>
+        <module>chapter02/formloginnew</module>
         <module>chapter02/getloginuser</module>
         <module>chapter02/jdbcuserdetailsmanager</module>
+        <module>chapter02/jdbcuserdetailsmanagernew</module>
         <module>chapter02/jpa</module>
         <module>chapter02/mybatis</module>
         <module>chapter02/user-in-memory</module>
         <module>chapter03/kaptcha</module>
+        <module>chapter03/kaptchanew</module>
         <module>chapter03/multiuser</module>
+        <module>chapter03/multiusernew</module>
         <module>chapter03/multiuser-mybatis</module>
+        <module>chapter03/newmultiuser-mybatis</module>
         <module>chapter04/startanalysis</module>
         <module>chapter04/filter_kaptcha</module>
+        <module>chapter04/filter_kaptcha_new</module>
         <module>chapter04/ignoredrequests</module>
         <module>chapter04/json_login</module>
+        <module>chapter04/json_login_new</module>
         <module>chapter04/multi_filter_chain</module>
+        <module>chapter04/newmulti_filter_chain</module>
         <module>chapter04/multi_users01</module>
         <module>chapter04/multi_users02</module>
         <module>chapter04/multi_users03</module>
@@ -76,8 +84,8 @@
         <druid.version>1.1.21</druid.version>
         <spring-cloud.version>Hoxton.SR8</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.3.RELEASE</spring-cloud-alibaba.version>
-        <spring-boot.version>2.6.6</spring-boot.version>
-        <mybatis-plus-boot.version>3.3.2</mybatis-plus-boot.version>
+        <spring-boot.version>2.7.4</spring-boot.version>
+        <mybatis-plus-boot.version>3.5.2</mybatis-plus-boot.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -85,6 +93,11 @@
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>9.21</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>2.1.3</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>

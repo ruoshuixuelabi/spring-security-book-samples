@@ -11,6 +11,9 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>multiuser-mybatis</name>
     <description>多数据源</description>
+    <properties>
+        <spring-boot.version>2.7.4</spring-boot.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

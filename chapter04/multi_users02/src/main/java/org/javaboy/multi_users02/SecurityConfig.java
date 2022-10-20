@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author 江南一点雨
@@ -18,7 +19,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * @Gitee https://gitee.com/lenve
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+//public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
+    /**
+     * 由于默认的全局AuthenticationManager在配置时会从Spring容器中查找UserDetailsService实例，
+     * 所以我们如果针对全局AuthenticationManager配置用户，只需要往Spring容器中注入一个UserDetailsService实例即可
+     *
+     * @return
+     */
     @Bean
     UserDetailsService us() {
         InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
@@ -27,19 +35,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return users;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    /**
+     * 配置完成后，当我们启动项目时，全局的AuthenticationManager在配置时会去Spring容器中查找UserDetailsService实例，
+     * 找到的就是我们自定义的UserDetailsService实例。当我们进行登录时，系统拿着我们输入的用户名／密码，
+     * 首先和javaboy/123进行匹配，如果匹配不上的话，再去和江南一点雨/123进行匹配。
+     *
+     * @param http
+     * @return
+     * @throws Exception
+     */
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
         users.createUser(User.withUsername("javaboy")
                 .password("{noop}123").roles("admin").build());
-        http.authorizeRequests()
+        return http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .permitAll()
                 .and()
                 .userDetailsService(users)
-                .csrf().disable();
+                .csrf().disable().build();
     }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
+//        users.createUser(User.withUsername("javaboy")
+//                .password("{noop}123").roles("admin").build());
+//        http.authorizeRequests()
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin()
+//                .permitAll()
+//                .and()
+//                .userDetailsService(users)
+//                .csrf().disable();
+//    }
 }
-
