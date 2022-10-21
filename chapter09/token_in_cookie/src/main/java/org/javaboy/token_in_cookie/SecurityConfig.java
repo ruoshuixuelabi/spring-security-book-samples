@@ -1,9 +1,14 @@
 package org.javaboy.token_in_cookie;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.LazyCsrfTokenRepository;
 
@@ -17,30 +22,32 @@ import org.springframework.security.web.csrf.LazyCsrfTokenRepository;
  * @Gitee https://gitee.com/lenve
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("javaboy")
+public class SecurityConfig {
+    @Bean
+    UserDetailsService us() {
+        InMemoryUserDetailsManager users = new InMemoryUserDetailsManager();
+        users.createUser(User.withUsername("javaboy")
                 .password("{noop}123")
-                .roles("admin");
+                .roles("admin")
+                .build());
+        return users;
     }
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/login.html")
-                .successHandler((req,resp,auth)->{
-                    resp.getWriter().write("login success");
-                })
+                .successHandler((req, resp, auth) -> resp.getWriter().write("login success"))
                 .permitAll()
                 .and()
                 .headers()
                 .and()
                 .csrf()
-                .csrfTokenRepository(new LazyCsrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()));
+//                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+                .csrfTokenRepository(new LazyCsrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())).and()
+                .build();
     }
 }

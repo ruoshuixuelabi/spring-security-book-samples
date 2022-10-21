@@ -1,11 +1,14 @@
 package org.javaboy.exception_translation_filter;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.servlet.ServletException;
@@ -23,12 +26,12 @@ import java.io.IOException;
  * @Gitee https://gitee.com/lenve
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
+public class SecurityConfig {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         AntPathRequestMatcher matcher1 = new AntPathRequestMatcher("/qq/**");
         AntPathRequestMatcher matcher2 = new AntPathRequestMatcher("/wx/**");
-        http.authorizeRequests()
+        return http.authorizeRequests()
                 .antMatchers("/wx/**").hasRole("wx")
                 .antMatchers("/qq/**").hasRole("qq")
                 .anyRequest().authenticated()
@@ -57,6 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .and()
-                .csrf().disable();
+                .csrf().disable().build();
     }
 }

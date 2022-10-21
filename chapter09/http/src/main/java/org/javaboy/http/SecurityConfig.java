@@ -1,8 +1,10 @@
 package org.javaboy.http;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author 江南一点雨
@@ -14,10 +16,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @Gitee https://gitee.com/lenve
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+public class SecurityConfig {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -29,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/https").requiresSecure()
                 .antMatchers("/http").requiresInsecure()
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .build();
     }
 }

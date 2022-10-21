@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.MessageDigestPasswordEncoder
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
 
@@ -24,18 +25,20 @@ import org.springframework.security.web.authentication.www.DigestAuthenticationF
  * @Gitee https://gitee.com/lenve
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
+public class SecurityConfig {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http.authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(digestAuthenticationEntryPoint())
                 .and()
-                .addFilter(digestAuthenticationFilter());
+                .addFilter(digestAuthenticationFilter())
+                .build();
     }
+
     DigestAuthenticationEntryPoint digestAuthenticationEntryPoint() {
         DigestAuthenticationEntryPoint entryPoint = new DigestAuthenticationEntryPoint();
         entryPoint.setNonceValiditySeconds(3600);
@@ -43,6 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         entryPoint.setKey("javaboy");
         return entryPoint;
     }
+
     DigestAuthenticationFilter digestAuthenticationFilter() throws Exception {
         DigestAuthenticationFilter filter = new DigestAuthenticationFilter();
         filter.setAuthenticationEntryPoint(digestAuthenticationEntryPoint());
@@ -50,13 +54,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         filter.setPasswordAlreadyEncoded(true);
         return filter;
     }
-    @Override
+
     @Bean
-    public UserDetailsService userDetailsServiceBean() throws Exception {
+    public UserDetailsService userDetailsServiceBean() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
         manager.createUser(User.withUsername("javaboy").password("e7ecfd3f08e6960f154e1ff29079fbd3").roles("admin").build());
         return manager;
     }
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return NoOpPasswordEncoder.getInstance();

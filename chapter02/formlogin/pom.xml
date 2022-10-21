@@ -12,7 +12,7 @@
     <name>formlogin</name>
     <description>第2章第一小节案例（表单登录配置细节）</description>
     <properties>
-        <spring-boot.version>2.7.4</spring-boot.version>
+        <spring-boot.version>2.7.5</spring-boot.version>
     </properties>
     <dependencies>
         <dependency>
