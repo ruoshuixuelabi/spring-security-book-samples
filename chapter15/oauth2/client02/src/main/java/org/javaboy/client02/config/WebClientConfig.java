@@ -64,7 +64,6 @@ public class WebClientConfig {
             String password = servletRequest.getParameter(OAuth2ParameterNames.PASSWORD);
             if (StringUtils.hasText(username) && StringUtils.hasText(password)) {
                 contextAttributes = new HashMap<>();
-
                 // `PasswordOAuth2AuthorizedClientProvider` requires both attributes
                 contextAttributes.put(OAuth2AuthorizationContext.USERNAME_ATTRIBUTE_NAME, username);
                 contextAttributes.put(OAuth2AuthorizationContext.PASSWORD_ATTRIBUTE_NAME, password);

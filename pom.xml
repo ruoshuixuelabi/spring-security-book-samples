@@ -67,6 +67,7 @@
         <module>chapter15/oauth2/auth_server_jdbc</module>
         <module>chapter15/oauth2</module>
         <module>chapter15/oauth2/auth_server</module>
+        <module>chapter15/oauth2/auth_server_new</module>
         <module>chapter15/oauth2/auth_server_jwt</module>
         <module>chapter15/oauth2/auth_server_redis</module>
         <module>chapter15/oauth2_login_demo</module>

@@ -2,9 +2,11 @@ package org.javaboy.client02;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +31,10 @@ public class HelloController {
     @Autowired
     WebClient webClient;
     private String helloUri="http://res.javaboy.org:8882/hello";
-
+    @GetMapping("/hello")
+    public DefaultOAuth2User hello() {
+        return ((DefaultOAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+    }
     @GetMapping(value = "/authorize", params = "grant_type=authorization_code")
     public String authorization_code_grant(Model model) {
         String msg = retrieveMessages("auth-code");

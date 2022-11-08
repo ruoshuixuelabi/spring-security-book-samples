@@ -5,6 +5,9 @@ spring:
     oauth2:
       client:
         registration:
+          github:
+            client-id: aa9e79846df9cbc6201f
+            client-secret: c324b93443594fe84d106bb32c904799e1839e6a
           auth-code:
             provider: javaboy
             client-id: my_client

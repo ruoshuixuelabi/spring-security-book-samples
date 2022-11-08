@@ -1,9 +1,11 @@
 package org.javaboy.oauth2_login_demo;
 
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * @author 江南一点雨
@@ -15,12 +17,20 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  * @Gitee https://gitee.com/lenve
  */
 @Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .oauth2Login();
+public class SecurityConfig {
+    @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return
+                http.authorizeRequests()
+                        .anyRequest().authenticated()
+                        .and()
+                        .oauth2Login().and().build();
     }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.authorizeRequests()
+//                .anyRequest().authenticated()
+//                .and()
+//                .oauth2Login();
+//    }
 }
